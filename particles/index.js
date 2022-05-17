@@ -1,30 +1,36 @@
 const particleInitialColor = 'white';
 const particleInitialRadius = 5;
 const initialNumberOfParticles = 10;
+const numberOfParticlesToAddPerMouseMoveEvent = 5;
+const minInitialVelocity = -10;
+const maxInitialVelocity = 10;
 
 let id = 0
-let particles = generateParticles(initialNumberOfParticles);
+let particles = [];
 
-function generateParticles(n) {
-  let particles = [];
-  for (let i = 0; i < n; i += 1) {
-    particles.push(generateParticle());
-  }
-  return particles;
-}
-
-function generateParticle() {
+function generateParticle(x, y) {
   let particle = {};
   particle.id = id;
   id += 1;
-  particle.xPosition = Math.random() * 100;
-  particle.yPosition = Math.random() * 100;
-  particle.xVelocity = Math.random() * 10;
-  particle.yVelocity = Math.random() * 10;
-  particle.color = particleInitialColor;
+  particle.xPosition = x;
+  particle.yPosition = y;
+  particle.xVelocity = randomVelocity();
+  particle.yVelocity = randomVelocity();
+  particle.color = randomColorRGBString();
   particle.radius = particleInitialRadius;
   particle.isAlive = true;
   return particle;
+}
+
+function randomColorRGBString() {
+  let red = Math.floor(Math.random() * 256 + 1);
+  let blue = Math.floor(Math.random() * 256 + 1);
+  let green = Math.floor(Math.random() * 256 + 1);
+  return `rgb(${red}, ${blue}, ${green})`;
+}
+
+function randomVelocity() {
+  return Math.random() * (maxInitialVelocity - minInitialVelocity) + minInitialVelocity;
 }
 
 function updateParticle(particle) {
@@ -34,7 +40,7 @@ function updateParticle(particle) {
   updatedParticle.yPosition = particle.yPosition + particle.yVelocity;
   updatedParticle.xVelocity = particle.xVelocity;
   updatedParticle.yVelocity = particle.yVelocity;
-  updatedParticle.color = particleInitialColor;
+  updatedParticle.color = particle.color;
   updatedParticle.radius = particle.radius * 0.95;
   if (updatedParticle.radius > 0.1) {
     updatedParticle.isAlive = true;
@@ -48,11 +54,12 @@ const svg = d3.select('body')
               .append('svg')
               .attr('width', '100%')
               .attr('height', '100%')
-              .on('click', addParticles);
+              .on('mousemove', function(event) { addParticles(event) });
 
-function addParticles() {
-  for (let i = 0; i < 10; i += 1) {
-    particles.push(generateParticle())
+function addParticles(event) {
+  let point = d3.pointer(event);
+  for (let i = 0; i < numberOfParticlesToAddPerMouseMoveEvent; i += 1) {
+    particles.push(generateParticle(point[0], point[1]))
   }
 }
 
