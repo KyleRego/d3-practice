@@ -1,9 +1,10 @@
-const particleInitialColor = 'white';
-const particleInitialRadius = 5;
-const initialNumberOfParticles = 10;
+const particleInitialRadius = 7;
 const numberOfParticlesToAddPerMouseMoveEvent = 5;
-const minInitialVelocity = -10;
-const maxInitialVelocity = 10;
+const radiusDecayFactor = 0.9;
+const minInitialVelocity = -5;
+const maxInitialVelocity = 5;
+const minInitialAcceleration = -1;
+const maxInitialAcceleration = 1;
 
 let id = 0
 let particles = [];
@@ -16,6 +17,8 @@ function generateParticle(x, y) {
   particle.yPosition = y;
   particle.xVelocity = randomVelocity();
   particle.yVelocity = randomVelocity();
+  particle.xAcceleration = randomAcceleration();
+  particle.yAcceleration = randomAcceleration();
   particle.color = randomColorRGBString();
   particle.radius = particleInitialRadius;
   particle.isAlive = true;
@@ -30,18 +33,26 @@ function randomColorRGBString() {
 }
 
 function randomVelocity() {
-  return Math.random() * (maxInitialVelocity - minInitialVelocity) + minInitialVelocity;
+  return Math.random() * 
+  (maxInitialVelocity - minInitialVelocity) + minInitialVelocity;
+}
+
+function randomAcceleration() {
+  return Math.random() * 
+  (maxInitialAcceleration - minInitialAcceleration) + minInitialAcceleration;
 }
 
 function updateParticle(particle) {
   let updatedParticle = {};
   updatedParticle.id = particle.id;
-  updatedParticle.xPosition = particle.xPosition + particle.xVelocity;
-  updatedParticle.yPosition = particle.yPosition + particle.yVelocity;
-  updatedParticle.xVelocity = particle.xVelocity;
-  updatedParticle.yVelocity = particle.yVelocity;
+  updatedParticle.xPosition = particle.xPosition + particle.xVelocity + 0.5 * particle.xAcceleration;
+  updatedParticle.yPosition = particle.yPosition + particle.yVelocity + 0.5 * particle.yAcceleration;
+  updatedParticle.xVelocity = particle.xVelocity + particle.xAcceleration;
+  updatedParticle.yVelocity = particle.yVelocity + particle.yAcceleration;
+  updatedParticle.xAcceleration = particle.xAcceleration;
+  updatedParticle.yAcceleration = particle.yAcceleration;
   updatedParticle.color = particle.color;
-  updatedParticle.radius = particle.radius * 0.95;
+  updatedParticle.radius = particle.radius * radiusDecayFactor;
   if (updatedParticle.radius > 0.1) {
     updatedParticle.isAlive = true;
   } else {
