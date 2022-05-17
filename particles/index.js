@@ -1,4 +1,4 @@
-const particleInitialRadius = 10;
+const particleInitialRadius = 3;
 const numberOfParticlesToAddPerMouseMoveEvent = 3;
 const radiusDecayFactor = 0.95;
 const minInitialPositionOffset = -10;
