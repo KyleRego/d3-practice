@@ -1,8 +1,10 @@
-const particleInitialRadius = 7;
-const numberOfParticlesToAddPerMouseMoveEvent = 5;
-const radiusDecayFactor = 0.9;
-const minInitialVelocity = -5;
-const maxInitialVelocity = 5;
+const particleInitialRadius = 10;
+const numberOfParticlesToAddPerMouseMoveEvent = 3;
+const radiusDecayFactor = 0.95;
+const minInitialPositionOffset = -10;
+const maxInitialPositionOffset = 10;
+const minInitialVelocity = -2;
+const maxInitialVelocity = 2;
 const minInitialAcceleration = -1;
 const maxInitialAcceleration = 1;
 
@@ -13,8 +15,8 @@ function generateParticle(x, y) {
   let particle = {};
   particle.id = id;
   id += 1;
-  particle.xPosition = x;
-  particle.yPosition = y;
+  particle.xPosition = x + randomPositionOffset();
+  particle.yPosition = y + randomPositionOffset();
   particle.xVelocity = randomVelocity();
   particle.yVelocity = randomVelocity();
   particle.xAcceleration = randomAcceleration();
@@ -30,6 +32,11 @@ function randomColorRGBString() {
   let blue = Math.floor(Math.random() * 256 + 1);
   let green = Math.floor(Math.random() * 256 + 1);
   return `rgb(${red}, ${blue}, ${green})`;
+}
+
+function randomPositionOffset() {
+  return Math.random() * 
+  (maxInitialPositionOffset - minInitialPositionOffset) + minInitialPositionOffset;
 }
 
 function randomVelocity() {
