@@ -2,3 +2,13 @@ body {
   background-color: black;
   height: 100vh;
 }
+
+svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+h1 {
+  color: white;
+}

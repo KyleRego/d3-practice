@@ -35,7 +35,7 @@ function updateParticle(particle) {
   updatedParticle.xVelocity = particle.xVelocity;
   updatedParticle.yVelocity = particle.yVelocity;
   updatedParticle.color = particleInitialColor;
-  updatedParticle.radius = particle.radius * 0.99;
+  updatedParticle.radius = particle.radius * 0.95;
   if (updatedParticle.radius > 0.1) {
     updatedParticle.isAlive = true;
   } else {
