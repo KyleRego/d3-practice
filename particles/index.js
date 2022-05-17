@@ -52,8 +52,8 @@ function randomAcceleration() {
 function updateParticle(particle) {
   let updatedParticle = {};
   updatedParticle.id = particle.id;
-  updatedParticle.xPosition = particle.xPosition + particle.xVelocity + 0.5 * particle.xAcceleration;
-  updatedParticle.yPosition = particle.yPosition + particle.yVelocity + 0.5 * particle.yAcceleration;
+  updatedParticle.xPosition = particle.xPosition + particle.xVelocity + 0.5 * particle.xAcceleration ** 2;
+  updatedParticle.yPosition = particle.yPosition + particle.yVelocity + 0.5 * particle.yAcceleration ** 2;
   updatedParticle.xVelocity = particle.xVelocity + particle.xAcceleration;
   updatedParticle.yVelocity = particle.yVelocity + particle.yAcceleration;
   updatedParticle.xAcceleration = particle.xAcceleration;
