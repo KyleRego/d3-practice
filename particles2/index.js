@@ -1,14 +1,15 @@
-const svgWidth = '100vh';
+const svgWidth = '100vw';
 const svgHeight = '100vh';
 const initialNumberOfParticles = 10;
-const initialParticleRadius = 5;
+const initialParticleRadius = 10;
 const radiusDecayFactor = 0.9;
 const numberOfParticlesToAddPerEvent = 10;
 
 const svg = d3.select('body')
               .append('svg')
               .attr('width', svgWidth)
-              .attr('height', svgHeight);
+              .attr('height', svgHeight)
+              .style('background-color', 'rgb(0, 0, 0, 0.6)');
 let particles = [];
 
 svg.on('click', event => createParticles(event));
