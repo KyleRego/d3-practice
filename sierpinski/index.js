@@ -7,20 +7,28 @@ const initialTriangleHeight = initialTriangleWidth * Math.pow(3, 0.5) / 2;
 const initialTrianglePoints = [0, initialTriangleHeight,
                               initialTriangleWidth, initialTriangleHeight,
                               initialTriangleWidth / 2, 0];
+const iterations = 10;
+
+const triangles = [];
+triangles.push(initialTrianglePoints);
+triangles.push(...threeTrianglesPointsList(...initialTrianglePoints));
+triangles.slice(1).forEach(triangle => {
+  triangles.push(...threeTrianglesPointsList(...triangle));
+})
 
 const svg = d3.select('body')
               .append('svg')
               .attr('width', svgWidth)
               .attr('height', svgHeight);
 
-function addTriangle(element, x1, y1, x2, y2, x3, y3) {
-  let dataset = [{x1, y1, x2, y2, x3, y3}];
-  let triangle = element.selectAll('polygon')
-                .data(dataset)
+function addTriangles(triangles) {
+  console.log(triangles);
+  let triangle = svg.selectAll('polygon')
+                .data(triangles)
                 .enter()
                 .append('polygon')
-                .attr('points', d => `${d.x1},${d.y1} ${d.x2},${d.y2} ${d.x3},${d.y3}`)
-                .attr('fill', randomRGBString());
+                .attr('points', d => `${d[0]},${d[1]} ${d[2]},${d[3]} ${d[4]},${d[5]}`)
+                .attr('fill', d => randomRGBString());
   console.log(triangle);
   return triangle;
 }
@@ -52,5 +60,4 @@ function randomRGBString() {
   return `rgb(${red}, ${green}, ${blue})`;
 }
 
-const initialTriangle = addTriangle(svg, ...initialTrianglePoints);
-addThreeTriangles(initialTriangle);
+const initialTriangle = addTriangles(triangles);
