@@ -18,17 +18,22 @@ function addTriangle(x, y, width, height) {
   let y2 = y;
   let x3 = x + width / 2;
   let y3 = y - height;
-  triangles.push([x1, y1, x2, y2, x3, y3]);
+  let triangle = [x1, y1, x2, y2, x3, y3];
+  triangle.hasNotTriggeredEvent = true;
+  triangles.push(triangle);
   svg.selectAll('polygon')
       .data(triangles)
       .enter()
       .append('polygon')
       .attr('points', d => `${d[0]},${d[1]} ${d[2]},${d[3]} ${d[4]},${d[5]}`)
       .attr('fill', randomRGBStringForSierpinskiTriangle())
-      .on('click', (event, d) => {
-        addTriangle(d[0], d[1], width / 2, height / 2);
-        addTriangle(d[0] + width / 4, d[1] - height / 2, width / 2, height / 2);
-        addTriangle(d[0] + width / 2, d[1], width / 2, height / 2);
+      .on('mousemove', (event, d) => {
+        if (d.hasNotTriggeredEvent) {
+          addTriangle(d[0], d[1], width / 2, height / 2);
+          addTriangle(d[0] + width / 4, d[1] - height / 2, width / 2, height / 2);
+          addTriangle(d[0] + width / 2, d[1], width / 2, height / 2);
+          d.hasNotTriggeredEvent = false;
+        }
       });
 }
 
