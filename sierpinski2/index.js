@@ -27,6 +27,8 @@ function addTriangle(x, y, width, height) {
       .append('polygon')
       .attr('points', d => `${d[0]},${d[1]} ${d[2]},${d[3]} ${d[4]},${d[5]}`)
       .attr('fill', randomRGBStringForSierpinskiTriangle())
+      .attr('stroke', 'pink')
+      .attr('stroke-width', '1px')
       .on('mousemove', (event, d) => {
         if (d.hasNotTriggeredEvent) {
           addTriangle(d[0], d[1], width / 2, height / 2);
